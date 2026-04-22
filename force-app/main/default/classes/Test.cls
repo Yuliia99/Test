@@ -5,7 +5,7 @@ public virtual class Test {
     
     public class Y extends Test {
         public override void methodA() {
-        System.debug('Hello Yay1');
+        System.debug('Hello Yay2');
     }
 }
 }
