@@ -19,7 +19,6 @@ jobs:
             with:
               fetch-depth: '2'
                 
-          # Now Install Salesforce CLI
           - name: 'Install sfdx'
             run: npm install @salesforce/cli --global
           - name: 'Installing sfdx git delta'
@@ -33,18 +32,17 @@ jobs:
                 sf sgd source delta --to "HEAD" --from "HEAD~1" --output changed-sources/ --generate-delta --source force-app/
                 echo "[INFO] Diff generated"
 
-           # КРОК: СТАТИЧНИЙ АНАЛІЗ КОДУ
-      - name: 'Install Salesforce Code Analyzer'
-        run: sf plugins install @salesforce/sfdx-scanner
+        - name: 'Install Salesforce Code Analyzer'
+          run: sf plugins install @salesforce/sfdx-scanner
 
-      - name: 'Run Static Code Analysis (PMD/Checkstyle)'
-        run: |
-          sf scanner run \
-            --target "force-app" \
-            --engine "pmd" \
-            --severity-threshold 3 \
-            --format table
-        # severity-threshold 3 зупинить workflow, якщо знайдено помилки високої важливості
+        - name: 'Run Static Code Analysis (PMD/Checkstyle)'
+          run: |
+            sf scanner run \
+              --target "force-app" \
+              --engine "pmd" \
+              --severity-threshold 3 \
+              --format table
+          # severity-threshold 3 зупинить workflow, якщо знайдено помилки високої важливості
                 
           - name: 'Deploy to environment with running all local tests'
             run: |
